@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Aplikasi Dicoding Event</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Up Coming</string>
+    <string name="title_dashboard">Finish Event</string>
     <string name="title_notifications">Notifications</string>
     <string name="judul_event">Your text here</string>
+    <string name="buttonDetail">button\n</string>
+    <string name="image_content_description">ini string\n</string>
+    <string name="title">ini textview\n</string>
+    <string name="description">ini deskripsi</string>
 </resources>
