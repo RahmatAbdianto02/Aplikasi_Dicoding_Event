@@ -13,7 +13,8 @@ import com.dicoding.aplikasidicodingevent.RecycleView.ListEventsItem
 
 class EventAdapter(
     private val context: Context,
-    private val events: List<ListEventsItem>
+    private val events: List<ListEventsItem>,
+    private val onItemClick: (String) -> Unit // <-- Added parameter
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -28,8 +29,13 @@ class EventAdapter(
 
         Glide.with(context)
             .load(event.mediaCover)
-            .placeholder(R.drawable.baseline_image_24) // Placeholder image
+            .placeholder(R.drawable.baseline_image_24)
             .into(holder.itemImage)
+
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            onItemClick(event.id.toString()) // Adjust based on your Event class
+        }
     }
 
     override fun getItemCount(): Int = events.size

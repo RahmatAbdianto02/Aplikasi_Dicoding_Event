@@ -4,4 +4,5 @@
     <string name="title_dashboard">Finish</string>
     <string name="title_notifications">Notifications</string>
     <string name="judul_event">Your text here</string>
+    <string name="buttonDetail">button detail\n</string>
 </resources>

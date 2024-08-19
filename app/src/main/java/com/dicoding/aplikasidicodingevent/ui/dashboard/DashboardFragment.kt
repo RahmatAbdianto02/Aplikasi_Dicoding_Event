@@ -1,18 +1,18 @@
 package com.dicoding.aplikasidicodingevent.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.aplikasidicodingevent.RecycleView.EventResponse
-import com.dicoding.aplikasidicodingevent.RecycleView.ListEventsItem
+import com.dicoding.Detail_Activity.DetailActivity
 import com.dicoding.aplikasidicodingevent.databinding.FragmentDashboardBinding
 import com.dicoding.aplikasidicodingevent.retrofit.ApiConfig
+import com.dicoding.aplikasidicodingevent.RecycleView.EventResponse
+import com.dicoding.aplikasidicodingevent.RecycleView.ListEventsItem
 import com.dicoding.aplikasidicodingevent.ui.home.EventAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,14 +29,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-
-//        val textView: TextView = binding.textDashboard
-//        dashboardViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,48 +38,40 @@ class DashboardFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.recycleApiFinish.layoutManager = layoutManager
 
-
         fetchEventDataFinish()
     }
 
-    private fun fetchEventDataFinish(){
+    private fun fetchEventDataFinish() {
         val apiService = ApiConfig.getApiService()
-        apiService.getFinishedEvents().enqueue(object :Callback<EventResponse>{
-            override fun onResponse(
-                call: Call<EventResponse>,
-                response: Response<EventResponse>
-            ) {
-                showLoading(false)
+        apiService.getFinishedEvents().enqueue(object : Callback<EventResponse> {
+            override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null){
-                        setupRecyclerView(responseBody.listEvents)
+                    val eventList = response.body()?.listEvents
+                    if (eventList != null) {
+                        setupRecyclerView(eventList)
                     }
                 } else {
-                    Log.e("FinishFragment","onFailure: ${response.message()}")
+                    Log.e("DashboardFragment", "Error: ${response.message()}")
                 }
             }
-            private fun setupRecyclerView(events: List<ListEventsItem>) {
-                val adapter = EventAdapter(requireContext(), events)
-                binding.recycleApiFinish.adapter = adapter
-            }
-
-
-            private fun showLoading(isLoading: Boolean) {
-                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            }
-
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                showLoading(false)
-                Log.e("FinishFragment", "onFailure: ${t.message}")
+                Log.e("DashboardFragment", "Failure: ${t.message}")
             }
-
         })
     }
 
-
-
+    private fun setupRecyclerView(events: List<ListEventsItem>) {
+        val adapter = EventAdapter(requireContext(), events) { eventId ->
+            // Handle item click
+            val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                // Convert eventId to String if it's an Int
+                putExtra("EVENT_ID", eventId.toString())
+            }
+            startActivity(intent)
+        }
+        binding.recycleApiFinish.adapter = adapter
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
