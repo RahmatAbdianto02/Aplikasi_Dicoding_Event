@@ -1,5 +1,7 @@
 package com.dicoding.aplikasidicodingevent.ui.home
 
+import EventAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.aplikasidicodingevent.Detail.DetailActivity
 import com.dicoding.aplikasidicodingevent.databinding.FragmentHomeBinding
 import com.dicoding.aplikasidicodingevent.retrofit.ApiConfig
 import com.dicoding.aplikasidicodingevent.RecycleView.EventResponse
@@ -64,7 +67,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView(events: List<ListEventsItem>) {
-        val adapter = EventAdapter(requireContext(), events)
+        val adapter = EventAdapter(requireContext(), events) { eventId ->
+            // Handle item click
+            val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                putExtra("EVENT_ID", eventId)
+            }
+            startActivity(intent)
+        }
         binding.recycleApi.adapter = adapter
     }
 
