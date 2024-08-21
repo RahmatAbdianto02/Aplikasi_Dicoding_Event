@@ -3,13 +3,11 @@ Submission Awal : Aplikasi Dicoding Event (Navigation dan API)
 FixBug in Branch 5
 
 
--![Screenshot 2024-08-17 203950](![1724243589514](https://github.com/user-attachments/assets/eff36d26-eb62-44ed-b808-c9a45755f004)
-)
+![1724243589514](https://github.com/user-attachments/assets/77c7f020-4d1a-4c0c-ac87-f4386eeff0a7)
 
 
 
--![Screenshot 2024-08-17 204005](![1724243589501](https://github.com/user-attachments/assets/ebc8f316-ef7e-4903-8269-581891bf3508)
-)
+![1724243589501](https://github.com/user-attachments/assets/bbe09613-a3e8-4596-aa52-46b713b9ba05)
 
 
 
